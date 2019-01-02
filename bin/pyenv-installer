@@ -27,7 +27,7 @@ failed_checkout() {
 }
 
 checkout() {
-  [ -d "$2" ] || git clone --depth 1 "$1" "$2" || failed_checkout "$1"
+  [ -d "$2" ] || git clone --depth 1 "$1" "$2" --branch "$3" || failed_checkout "$1"
 }
 
 if ! command -v git 1>/dev/null 2>&1; then
@@ -41,12 +41,10 @@ else
   GITHUB="https://github.com"
 fi
 
-checkout "${GITHUB}/pyenv/pyenv.git"            "${PYENV_ROOT}"
-checkout "${GITHUB}/pyenv/pyenv-doctor.git"     "${PYENV_ROOT}/plugins/pyenv-doctor"
-checkout "${GITHUB}/pyenv/pyenv-installer.git"  "${PYENV_ROOT}/plugins/pyenv-installer"
-checkout "${GITHUB}/pyenv/pyenv-update.git"     "${PYENV_ROOT}/plugins/pyenv-update"
-checkout "${GITHUB}/pyenv/pyenv-virtualenv.git" "${PYENV_ROOT}/plugins/pyenv-virtualenv"
-checkout "${GITHUB}/pyenv/pyenv-which-ext.git"  "${PYENV_ROOT}/plugins/pyenv-which-ext"
+checkout "${GITHUB}/pyenv/pyenv.git"             "${PYENV_ROOT}"                            "v1.2.7"
+checkout "${GITHUB}/weka-io/pyenv-installer.git" "${PYENV_ROOT}/plugins/pyenv-installer"    "master"
+checkout "${GITHUB}/pyenv/pyenv-update.git"      "${PYENV_ROOT}/plugins/pyenv-update"       "master"
+checkout "${GITHUB}/pyenv/pyenv-virtualenv.git"  "${PYENV_ROOT}/plugins/pyenv-virtualenv"   "v1.1.3"
 
 if ! command -v pyenv 1>/dev/null; then
   { echo
